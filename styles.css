@@ -17,17 +17,16 @@ html, body {
 }
 
 body { 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
   background: var(--bg); 
   color: var(--fg); 
   font-family: var(--ui); 
+  min-height: 100vh;
 }
 
 .wrap { 
   width: 100%; 
   max-width: 560px; 
+  margin: 0 auto;
   padding: var(--space); 
   display: grid; 
   gap: var(--space); 
@@ -85,8 +84,6 @@ button:active {
   display: grid; 
   gap: 6px; 
   padding-top: var(--space); 
-  max-height: 40vh;
-  overflow-y: auto;
 }
 
 .entry { 
