@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --bg: #ffffff;
   --fg: #111111;
@@ -14,12 +18,7 @@
 html, body { 
   height: 100%; 
   margin: 0; 
-  overflow-x: hidden;
-}
-
-html {
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
+  padding: 0;
 }
 
 body { 
@@ -27,6 +26,7 @@ body {
   color: var(--fg); 
   font-family: var(--ui); 
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .wrap { 
