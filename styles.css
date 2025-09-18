@@ -38,6 +38,20 @@ body {
   gap: var(--space); 
 }
 
+/* App Header */
+.app-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space);
+}
+
+.app-icon {
+  width: 15%;
+  height: auto;
+  max-width: 80px;
+  min-width: 60px;
+}
+
 .timer { 
   font-family: var(--mono); 
   font-size: 40px; 
