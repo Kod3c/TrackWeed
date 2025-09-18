@@ -1,36 +1,42 @@
 const CACHE_NAME = 'weed-tracker-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
-  '/icon.png',
-  '/manifest.json'
-];
 
-// Install service worker
+// Install service worker - minimal caching
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
+  console.log('Service worker installing...');
+  self.skipWaiting();
 });
 
-// Fetch from cache first, then network
+// Fetch strategy: Network first, cache as fallback
 self.addEventListener('fetch', event => {
+  // Skip caching for HTML, CSS, and JS files to ensure fresh content
+  if (event.request.url.includes('.html') || 
+      event.request.url.includes('.css') || 
+      event.request.url.includes('.js')) {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          // Only use cache if network fails
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+  
+  // For other resources (images, etc.), use network first but cache them
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      }
-    )
+        // Clone the response for caching
+        const responseClone = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseClone);
+        });
+        return response;
+      })
+      .catch(() => {
+        // Fallback to cache if network fails
+        return caches.match(event.request);
+      })
   );
 });
 

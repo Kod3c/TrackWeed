@@ -14,7 +14,12 @@
   <meta name="description" content="Track and monitor your cannabis usage patterns" />
   <link rel="manifest" href="manifest.json" />
   
-  <link rel="stylesheet" href="styles.css" />
+  <!-- Cache-busting meta tags -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  
+  <link rel="stylesheet" href="styles.css?v=1.0.0" />
 </head>
 <body>
   <!-- Authentication Modal -->
@@ -144,13 +149,23 @@
 
     <section class="log" id="log"></section>
   </main>
-  <script src="script.js"></script>
+  <script src="script.js?v=1.0.0"></script>
   <script>
-    // Register service worker for PWA
+    // Register service worker for PWA with cache busting
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => console.log('ServiceWorker registered:', registration))
+        // Unregister any existing service workers first
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          registrations.forEach(registration => registration.unregister());
+        });
+        
+        // Register new service worker with cache busting
+        navigator.serviceWorker.register('/sw.js?v=' + Date.now())
+          .then(registration => {
+            console.log('ServiceWorker registered:', registration);
+            // Force update
+            registration.update();
+          })
           .catch(error => console.log('ServiceWorker registration failed:', error));
       });
     }
