@@ -85,6 +85,8 @@ button:active {
   display: grid; 
   gap: 6px; 
   padding-top: var(--space); 
+  max-height: 40vh;
+  overflow-y: auto;
 }
 
 .entry { 
