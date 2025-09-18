@@ -17,21 +17,21 @@ html, body {
 }
 
 body { 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
   background: var(--bg); 
   color: var(--fg); 
   font-family: var(--ui); 
+  overflow-y: auto;
 }
 
 .wrap { 
   width: 100%; 
   max-width: 560px; 
-  padding: var(--space); 
+  margin: 0 auto;
+  padding: calc(80px + var(--space)) var(--space) var(--space); 
   display: grid; 
   gap: var(--space); 
-  padding-top: 80px; /* Add space for fixed timer */
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .timer { 
@@ -40,16 +40,14 @@ body {
   letter-spacing: 0.03em; 
   text-align: center; 
   position: fixed;
-  top: var(--space);
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
   background: var(--bg);
-  padding: 10px 20px;
-  z-index: 100;
-  width: calc(100% - 24px);
-  max-width: 536px; /* max-width minus padding */
+  padding: 15px;
+  z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: var(--radius);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 button { 
