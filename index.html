@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weed Use Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Authentication Modal -->
+  <div id="authWrap" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal auth-modal">
+      <div id="authTitle" style="font-weight:600;">Access Required</div>
+      <div class="auth-content">
+        <p>Please enter the password to access the app:</p>
+        <input id="authPassword" type="password" placeholder="Enter password" autofocus />
+        <div id="authError" class="error"></div>
+      </div>
+      <div class="actions">
+        <button id="authSubmit" class="primary">Access</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap hidden" id="mainApp">
+    <div id="integrity" class="hidden"></div>
+
+    <div class="timer" id="since">00:00:00</div>
+    <button class="primary" id="smokeBtn" aria-pressed="false">I want to smoke</button>
+
+    <div class="toolbar">
+      <button id="missedBtn" class="tool" title="Add past event">Missed</button>
+      <button id="configBtn" class="tool" title="Configuration">Configuration</button>
+      <button id="exportBtn" class="tool" title="Export JSON">Export</button>
+      <label class="tool" for="importInput" title="Import JSON" style="cursor:pointer;">Import</label>
+      <input id="importInput" type="file" accept="application/json" class="hidden" />
+      <button id="resetBtn" class="tool" title="Reset all data">Reset</button>
+    </div>
+
+    <!-- Missed Panel -->
+    <section id="missedPanel" class="panel hidden" aria-hidden="true">
+      <label for="missedSmokeAt">Time</label>
+      <input id="missedSmokeAt" type="datetime-local" />
+      <div style="display:flex; gap:8px; justify-content:flex-end;">
+        <button id="missedCancel" class="tool">Cancel</button>
+        <button id="missedAdd" class="tool">Add</button>
+      </div>
+      <div id="missedError" class="error"></div>
+    </section>
+
+    <!-- Configuration Modal -->
+    <div id="cfgWrap" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="cfgTitle">
+      <div class="modal">
+        <div style="font-weight:600;" id="cfgTitle">Configuration</div>
+        <div class="row"><label for="cfgRed">Red threshold (hours)</label><input id="cfgRed" type="number" min="0" step="0.25"></div>
+        <div class="row"><label for="cfgGreen">Green min (hours)</label><input id="cfgGreen" type="number" min="0" step="0.25"></div>
+        <div class="error" id="cfgError"></div>
+        <div class="actions">
+          <button id="cfgCancel" class="tool">Cancel</button>
+          <button id="cfgSave" class="tool">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wizard Modal -->
+    <div id="wizardWrap" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="wizardTitle">
+      <div class="modal wizard-modal">
+        <div id="wizardTitle" style="font-weight:600;">Smoking Session Setup</div>
+        
+        <!-- Wizard Pages -->
+        <div class="wizard-content">
+          <!-- Page 1 -->
+          <div class="wizard-page active" id="wizardPage1">
+            <div class="wizard-page-content">
+              <h3>Before we begin...</h3>
+              
+              <div class="wizard-question">
+                <p>Have you gone for a walk or tried another form of "state-change"?</p>
+                <div class="wizard-options">
+                  <button class="wizard-option" data-question="1" data-answer="yes">Yes</button>
+                  <button class="wizard-option" data-question="1" data-answer="no">No</button>
+                </div>
+              </div>
+              
+              <div class="wizard-question">
+                <p>Have you talked with a friend lately?</p>
+                <div class="wizard-options">
+                  <button class="wizard-option" data-question="2" data-answer="yes">Yes</button>
+                  <button class="wizard-option" data-question="2" data-answer="no">No</button>
+                </div>
+              </div>
+              
+              <div class="wizard-question">
+                <p>Have you completed any big tasks?</p>
+                <div class="wizard-options">
+                  <button class="wizard-option" data-question="3" data-answer="yes">Yes</button>
+                  <button class="wizard-option" data-question="3" data-answer="no">No</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-actions">
+          <button id="wizardCancel" class="tool">Cancel</button>
+          <button id="wizardComplete" class="primary" disabled>Complete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Type Selection Modal for "I smoked" -->
+    <div id="typeWrap" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="typeTitle">
+      <div class="modal">
+        <div id="typeTitle" style="font-weight:600;">How did you smoke?</div>
+        <div class="actions" style="width:100%; justify-content:stretch;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; width:100%;">
+            <button class="tool" data-method="dab" autofocus>Dab Pen</button>
+            <button class="tool" data-method="bong">Bong</button>
+            <button class="tool" data-method="joint">Joint</button>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="typeCancel" class="tool">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="log" id="log"></section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

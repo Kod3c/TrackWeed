@@ -1,0 +1,341 @@
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --muted: #6b7280;
+  --danger: #b00020;
+  --warn: #b59b00;
+  --good: #007a1e;
+  --space: 12px;
+  --radius: 10px;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --ui: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+html, body { 
+  height: 100%; 
+  margin: 0; 
+}
+
+body { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  background: var(--bg); 
+  color: var(--fg); 
+  font-family: var(--ui); 
+}
+
+.wrap { 
+  width: 100%; 
+  max-width: 560px; 
+  padding: var(--space); 
+  display: grid; 
+  gap: var(--space); 
+}
+
+.timer { 
+  font-family: var(--mono); 
+  font-size: 40px; 
+  letter-spacing: 0.03em; 
+  text-align: center; 
+}
+
+button { 
+  appearance: none; 
+  border: 1px solid var(--fg); 
+  background: transparent; 
+  color: var(--fg); 
+  padding: 14px 16px; 
+  border-radius: var(--radius); 
+  font-size: 18px; 
+  cursor: pointer; 
+}
+
+button:active { 
+  transform: translateY(1px); 
+}
+
+.primary { 
+  background: var(--fg); 
+  color: var(--bg); 
+}
+
+.toolbar { 
+  display: flex; 
+  gap: 10px; 
+  justify-content: center; 
+  flex-wrap: wrap; 
+}
+
+.tool { 
+  border: 1px solid var(--fg); 
+  padding: 6px 10px; 
+  border-radius: var(--radius); 
+  background: transparent; 
+  font-size: 12px; 
+  cursor: pointer; 
+}
+
+.tool.confirm { 
+  border-color: var(--danger); 
+  color: var(--danger); 
+}
+
+.log { 
+  display: grid; 
+  gap: 6px; 
+  padding-top: var(--space); 
+}
+
+.entry { 
+  display: grid; 
+  grid-template-columns: 1fr auto auto; 
+  align-items: center; 
+  gap: 8px; 
+  font-size: 14px; 
+  border-bottom: 1px dashed #e5e7eb; 
+  padding: 6px 0; 
+}
+
+.left { 
+  color: var(--fg); 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+.right { 
+  font-family: var(--mono); 
+}
+
+.right.red { 
+  color: var(--danger); 
+}
+
+.right.yellow { 
+  color: var(--warn); 
+}
+
+.right.green { 
+  color: var(--good); 
+}
+
+.hidden { 
+  display: none !important; 
+}
+
+/* Delete button as × with confirm state */
+.del { 
+  border-color: var(--danger); 
+  color: var(--danger); 
+  padding: 0; 
+  width: 28px; 
+  height: 28px; 
+  border-radius: 50%; 
+  font-size: 18px; 
+  line-height: 1; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.del:focus { 
+  outline: 2px solid #000; 
+  outline-offset: 2px; 
+}
+
+.del.confirm { 
+  background: var(--danger); 
+  color: var(--bg); 
+  width: auto; 
+  height: auto; 
+  padding: 4px 10px; 
+  border-radius: 999px; 
+  font-size: 12px; 
+}
+
+/* Panels and modals */
+.panel { 
+  border: 1px solid var(--fg); 
+  border-radius: var(--radius); 
+  padding: 10px; 
+  display: grid; 
+  gap: 8px; 
+}
+
+.modal-backdrop { 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0, 0, 0, 0.2); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.modal { 
+  background: var(--bg); 
+  border: 1px solid var(--fg); 
+  border-radius: var(--radius); 
+  padding: 12px; 
+  width: min(92vw, 420px); 
+  display: grid; 
+  gap: 10px; 
+}
+
+.modal .row { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 8px; 
+  align-items: center; 
+}
+
+.modal label { 
+  color: var(--muted); 
+  font-size: 14px; 
+}
+
+.modal input { 
+  padding: 8px; 
+  border: 1px solid #bbb; 
+  border-radius: 6px; 
+  font: inherit; 
+}
+
+.modal .actions { 
+  display: flex; 
+  gap: 8px; 
+  justify-content: flex-end; 
+}
+
+.error { 
+  color: var(--danger); 
+  font-size: 12px; 
+}
+
+#integrity { 
+  text-align: center; 
+  color: var(--danger); 
+  font-size: 13px; 
+}
+
+/* Wizard Modal Styles */
+.wizard-modal {
+  width: min(95vw, 500px);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.wizard-content {
+  position: relative;
+  min-height: 200px;
+}
+
+.wizard-page {
+  display: none;
+  padding: 20px 0;
+}
+
+.wizard-page.active {
+  display: block;
+}
+
+.wizard-page-content {
+  margin-bottom: 20px;
+  min-height: 120px;
+}
+
+.wizard-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.wizard-actions button {
+  min-width: 80px;
+}
+
+.wizard-actions .primary {
+  margin-left: auto;
+}
+
+.wizard-options {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.wizard-option {
+  padding: 12px 24px;
+  border: 2px solid var(--fg);
+  background: transparent;
+  color: var(--fg);
+  border-radius: var(--radius);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.wizard-option:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.wizard-option.active {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.wizard-option:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wizard-question {
+  margin-bottom: 30px;
+}
+
+.wizard-question:last-child {
+  margin-bottom: 0;
+}
+
+.wizard-question p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Authentication Modal Styles */
+.auth-modal {
+  width: min(90vw, 350px);
+}
+
+.auth-content {
+  display: grid;
+  gap: 15px;
+}
+
+.auth-content p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+#authPassword {
+  padding: 12px;
+  border: 2px solid var(--fg);
+  border-radius: var(--radius);
+  font-size: 16px;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+#authPassword:focus {
+  outline: none;
+  border-color: var(--good);
+}
