@@ -37,6 +37,9 @@
   const cfgError = $("#cfgError");
   const cfgSave = $("#cfgSave");
   const cfgCancel = $("#cfgCancel");
+  const cfgExport = $("#cfgExport");
+  const cfgImportInput = $("#cfgImportInput");
+  const cfgReset = $("#cfgReset");
 
   // Type UI
   const typeWrap = $("#typeWrap");
@@ -120,7 +123,7 @@
     const password = authPassword.value.trim();
     
     if (password === AUTH_PASSWORD) {
-      setCookie(AUTH_COOKIE, 'true', 7); // 7 days
+      setCookie(AUTH_COOKIE, 'true', 30); // 30 days (monthly)
       showMainApp();
       authPassword.value = '';
     } else {
@@ -314,6 +317,9 @@
   configBtn.addEventListener('click', openConfig);
   cfgCancel.addEventListener('click', closeConfig);
   cfgSave.addEventListener('click', saveConfig);
+  cfgExport.addEventListener('click', exportJSON);
+  cfgImportInput.addEventListener('change',(e)=>{const f=e.target.files&&e.target.files[0]; if(f) importJSON(f).then(()=>{ cfgImportInput.value=''; });});
+  cfgReset.addEventListener('click', onReset);
   exportBtn.addEventListener('click',exportJSON);
   importInput.addEventListener('change',(e)=>{const f=e.target.files&&e.target.files[0]; if(f) importJSON(f).then(()=>{ importInput.value=''; });});
   resetBtn.addEventListener('click',onReset);

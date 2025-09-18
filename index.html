@@ -31,10 +31,6 @@
     <div class="toolbar">
       <button id="missedBtn" class="tool" title="Add past event">Missed</button>
       <button id="configBtn" class="tool" title="Configuration">Configuration</button>
-      <button id="exportBtn" class="tool" title="Export JSON">Export</button>
-      <label class="tool" for="importInput" title="Import JSON" style="cursor:pointer;">Import</label>
-      <input id="importInput" type="file" accept="application/json" class="hidden" />
-      <button id="resetBtn" class="tool" title="Reset all data">Reset</button>
     </div>
 
     <!-- Missed Panel -->
@@ -55,6 +51,17 @@
         <div class="row"><label for="cfgRed">Red threshold (hours)</label><input id="cfgRed" type="number" min="0" step="0.25"></div>
         <div class="row"><label for="cfgGreen">Green min (hours)</label><input id="cfgGreen" type="number" min="0" step="0.25"></div>
         <div class="error" id="cfgError"></div>
+        
+        <div class="config-section">
+          <h4>Data Management</h4>
+          <div class="config-buttons">
+            <button id="cfgExport" class="tool">Export</button>
+            <label class="tool" for="cfgImportInput" style="cursor:pointer;">Import</label>
+            <input id="cfgImportInput" type="file" accept="application/json" class="hidden" />
+            <button id="cfgReset" class="tool">Reset</button>
+          </div>
+        </div>
+        
         <div class="actions">
           <button id="cfgCancel" class="tool">Cancel</button>
           <button id="cfgSave" class="tool">Save</button>
