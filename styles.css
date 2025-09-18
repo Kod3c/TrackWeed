@@ -31,6 +31,7 @@ body {
   padding: var(--space); 
   display: grid; 
   gap: var(--space); 
+  padding-top: 80px; /* Add space for fixed timer */
 }
 
 .timer { 
@@ -38,6 +39,17 @@ body {
   font-size: 40px; 
   letter-spacing: 0.03em; 
   text-align: center; 
+  position: fixed;
+  top: var(--space);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  padding: 10px 20px;
+  z-index: 100;
+  width: calc(100% - 24px);
+  max-width: 536px; /* max-width minus padding */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius);
 }
 
 button { 
