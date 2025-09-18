@@ -10,9 +10,6 @@
   const smokeBtn = $("#smokeBtn");
   const missedBtn = $("#missedBtn");
   const configBtn = $("#configBtn");
-  const exportBtn = $("#exportBtn");
-  const importInput = $("#importInput");
-  const resetBtn = $("#resetBtn");
   const logEl = $("#log");
   const integrityEl = $("#integrity");
 
@@ -38,6 +35,7 @@
   const cfgSave = $("#cfgSave");
   const cfgCancel = $("#cfgCancel");
   const cfgExport = $("#cfgExport");
+  const cfgImport = $("#cfgImport");
   const cfgImportInput = $("#cfgImportInput");
   const cfgReset = $("#cfgReset");
 
@@ -318,11 +316,9 @@
   cfgCancel.addEventListener('click', closeConfig);
   cfgSave.addEventListener('click', saveConfig);
   cfgExport.addEventListener('click', exportJSON);
+  cfgImport.addEventListener('click', () => cfgImportInput.click());
   cfgImportInput.addEventListener('change',(e)=>{const f=e.target.files&&e.target.files[0]; if(f) importJSON(f).then(()=>{ cfgImportInput.value=''; });});
   cfgReset.addEventListener('click', onReset);
-  exportBtn.addEventListener('click',exportJSON);
-  importInput.addEventListener('change',(e)=>{const f=e.target.files&&e.target.files[0]; if(f) importJSON(f).then(()=>{ importInput.value=''; });});
-  resetBtn.addEventListener('click',onReset);
 
   // Auth event listeners
   authSubmit.addEventListener('click', handleAuthSubmit);
