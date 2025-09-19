@@ -183,7 +183,25 @@
   async function saveState(){ const raw = JSON.stringify(state); localStorage.setItem(STORE_KEY, raw); lastGoodSerialized = raw; }
 
   function fmtDeltaMS(ms){ if (ms < 0) ms = 0; const t = Math.floor(ms/1000); const h = Math.floor(t/3600); const m = Math.floor((t%3600)/60); const s = t%60; return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
-  function fmtLocal(ts){ const d = new Date(ts); const dt = new Intl.DateTimeFormat(undefined, {year:'numeric',month:'2-digit',day:'2-digit', hour:'2-digit', minute:'2-digit'}); return dt.format(d); }
+  function fmtLocal(ts){ 
+    const d = new Date(ts); 
+    const weekday = new Intl.DateTimeFormat(undefined, {weekday: 'long'}).format(d);
+    const month = new Intl.DateTimeFormat(undefined, {month: 'long'}).format(d);
+    const day = d.getDate();
+    const ordinal = getOrdinal(day);
+    const time = new Intl.DateTimeFormat(undefined, {hour: 'numeric', minute: '2-digit', hour12: true}).format(d);
+    return `${weekday}, ${month} ${day}${ordinal} - ${time}`;
+  }
+  
+  function getOrdinal(day) {
+    if (day > 3 && day < 21) return 'th';
+    switch (day % 10) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
+  }
   function prettyMethod(m){ if(!m) return ''; const map={dab:'Dab Pen', bong:'Bong', joint:'Joint'}; return map[m]||m; }
   function sortEvents(){ state.events.sort((a,b)=> Date.parse(a.at) - Date.parse(b.at)); }
   function recomputeLastSmoke(){ const now = Date.now(); let latest = null; for (const e of state.events){ if (e.type==='smoke' && Date.parse(e.at) <= now){ latest = e.at; } } state.lastSmokeAt = latest; }

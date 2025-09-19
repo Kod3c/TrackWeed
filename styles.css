@@ -42,6 +42,7 @@ body {
 .app-header {
   display: flex;
   justify-content: center;
+  margin-top: calc(var(--space) * 2);
   margin-bottom: var(--space);
 }
 
