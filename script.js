@@ -183,14 +183,14 @@
   async function saveState(){ const raw = JSON.stringify(state); localStorage.setItem(STORE_KEY, raw); lastGoodSerialized = raw; }
 
   function fmtDeltaMS(ms){ if (ms < 0) ms = 0; const t = Math.floor(ms/1000); const h = Math.floor(t/3600); const m = Math.floor((t%3600)/60); const s = t%60; return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
-  function fmtLocal(ts){ 
+  function fmtLocal(ts, dailyCount){ 
     const d = new Date(ts); 
-    const weekday = new Intl.DateTimeFormat(undefined, {weekday: 'long'}).format(d);
     const month = new Intl.DateTimeFormat(undefined, {month: 'long'}).format(d);
     const day = d.getDate();
     const ordinal = getOrdinal(day);
     const time = new Intl.DateTimeFormat(undefined, {hour: 'numeric', minute: '2-digit', hour12: true}).format(d);
-    return `${weekday}, ${month} ${day}${ordinal} - ${time}`;
+    const circleNumber = getCircleNumber(dailyCount);
+    return `${circleNumber} ${month} ${day}${ordinal} - ${time}`;
   }
   
   function getOrdinal(day) {
@@ -202,6 +202,14 @@
       default: return 'th';
     }
   }
+  
+  function getCircleNumber(count) {
+    const circles = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
+    if (count >= 1 && count <= 10) {
+      return circles[count - 1];
+    }
+    return count.toString(); // fallback for counts > 10
+  }
   function prettyMethod(m){ if(!m) return ''; const map={dab:'Dab Pen', bong:'Bong', joint:'Joint'}; return map[m]||m; }
   function sortEvents(){ state.events.sort((a,b)=> Date.parse(a.at) - Date.parse(b.at)); }
   function recomputeLastSmoke(){ const now = Date.now(); let latest = null; for (const e of state.events){ if (e.type==='smoke' && Date.parse(e.at) <= now){ latest = e.at; } } state.lastSmokeAt = latest; }
@@ -212,13 +220,24 @@
   function renderLog(){
     logEl.innerHTML = '';
     const rows = [];
+    
+    // Calculate daily counts for each event
+    const dailyCounts = {};
+    for (let i = 0; i < state.events.length; i++) {
+      const e = state.events[i];
+      const dateKey = new Date(e.at).toDateString(); // e.g., "Mon Jul 04 2023"
+      if (!dailyCounts[dateKey]) dailyCounts[dateKey] = 0;
+      dailyCounts[dateKey]++;
+      e._dailyCount = dailyCounts[dateKey]; // Store count on the event
+    }
+    
     for (let i = state.events.length - 1; i >= 0; i--){
       const e = state.events[i];
       const j = (function(){ for (let k=i-1; k>=0; k--) if (state.events[k].type==='smoke') return k; return -1; })();
       let right = ''; let cls = '';
       if (j!==-1){ const diffMs = Date.parse(e.at)-Date.parse(state.events[j].at); right = fmtDeltaMS(diffMs); const hours = diffMs/3600000; cls = colorClass(hours); }
       const kind = e.method ? `Smoked · ${prettyMethod(e.method)}` : 'Smoked';
-      rows.push(entryNode(e.id, `${fmtLocal(e.at)} · ${kind}`, right, cls));
+      rows.push(entryNode(e.id, `${fmtLocal(e.at, e._dailyCount)} · ${kind}`, right, cls));
     }
     for (const r of rows) logEl.appendChild(r);
   }
