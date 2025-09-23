@@ -275,7 +275,11 @@
     if(!missedSmokeAt.value||Number.isNaN(iso.getTime())){ missedError.textContent='Invalid time'; return; }
     const at=iso.toISOString();
     if(Date.parse(at)-Date.now()>120000){ missedError.textContent='Future not allowed'; return; }
-    state.events.push({id:uuid(),type:'smoke',at});
+    
+    // Get selected method
+    const selectedMethod = document.querySelector('.missed-type-btn.active')?.dataset.method || null;
+    
+    state.events.push({id:uuid(),type:'smoke',at,method:selectedMethod});
     sortEvents();
     recomputeLastSmoke();
     await saveState();
@@ -349,6 +353,16 @@
   missedBtn.addEventListener('click',()=>toggleMissed(missedPanel.classList.contains('hidden')));
   missedAdd.addEventListener('click',addMissed);
   missedCancel.addEventListener('click',()=>toggleMissed(false));
+  
+  // Missed type selection
+  document.querySelectorAll('.missed-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active class from all buttons
+      document.querySelectorAll('.missed-type-btn').forEach(b => b.classList.remove('active'));
+      // Add active class to clicked button
+      btn.classList.add('active');
+    });
+  });
   configBtn.addEventListener('click', openConfig);
   cfgCancel.addEventListener('click', closeConfig);
   cfgSave.addEventListener('click', saveConfig);
@@ -437,7 +451,16 @@
     btn.addEventListener('click', ()=>{ recordSmoke(btn.dataset.method); });
   });
 
-  function toggleMissed(open){ missedPanel.classList.toggle('hidden',!open); missedPanel.setAttribute('aria-hidden',open?'false':'true'); missedError.textContent=''; }
+  function toggleMissed(open){ 
+    missedPanel.classList.toggle('hidden',!open); 
+    missedPanel.setAttribute('aria-hidden',open?'false':'true'); 
+    missedError.textContent='';
+    
+    // Reset type selection when opening
+    if (open) {
+      document.querySelectorAll('.missed-type-btn').forEach(btn => btn.classList.remove('active'));
+    }
+  }
 
   // Boot
   authenticate();

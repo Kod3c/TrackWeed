@@ -56,6 +56,14 @@
     <section id="missedPanel" class="panel hidden" aria-hidden="true">
       <label for="missedSmokeAt">Time</label>
       <input id="missedSmokeAt" type="datetime-local" />
+      
+      <label for="missedType">How did you smoke?</label>
+      <div class="missed-type-options">
+        <button class="missed-type-btn tool" data-method="dab">Dab Pen</button>
+        <button class="missed-type-btn tool" data-method="bong">Bong</button>
+        <button class="missed-type-btn tool" data-method="joint">Joint</button>
+      </div>
+      
       <div style="display:flex; gap:8px; justify-content:flex-end;">
         <button id="missedCancel" class="tool">Cancel</button>
         <button id="missedAdd" class="tool">Add</button>

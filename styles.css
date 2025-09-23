@@ -380,3 +380,23 @@ button:active {
   justify-content: center;
   flex-wrap: wrap;
 }
+
+/* Missed Type Options */
+.missed-type-options {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.missed-type-btn {
+  flex: 1;
+  min-width: 80px;
+  transition: all 0.2s ease;
+}
+
+.missed-type-btn.active {
+  background: var(--fg);
+  color: var(--bg);
+}
